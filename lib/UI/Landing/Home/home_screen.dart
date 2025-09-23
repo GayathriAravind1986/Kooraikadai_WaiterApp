@@ -6470,46 +6470,47 @@ class HomePageViewState extends State<HomePageView>  with TickerProviderStateMix
                                                                   )
                                                                 : ElevatedButton(
                                                                     onPressed: () {
-                                                                      if ((selectedValue ==
-                                                                                  null &&
-                                                                              selectedOrderType ==
-                                                                                  OrderType.line) ||
-                                                                          (selectedValue ==
-                                                                                  null &&
-                                                                              selectedOrderType ==
-                                                                                  OrderType.ac)) {
-                                                                        setState(() {
-                                                                          isCompleteOrder =
-                                                                              false;
-                                                                        });
-                                                                        showToast(
-                                                                          "Table number is required for LINE/AC orders",
-                                                                          context,
-                                                                          color:
-                                                                              false,
-                                                                        );
-                                                                        return;
-                                                                      } else if ((selectedValueWaiter ==
-                                                                                  null &&
-                                                                              selectedOrderType ==
-                                                                                  OrderType.line) ||
-                                                                          (selectedValueWaiter ==
-                                                                                  null &&
-                                                                              selectedOrderType ==
-                                                                                  OrderType.ac)) {
-                                                                        setState(() {
-                                                                          isCompleteOrder =
-                                                                              false;
-                                                                        });
-                                                                        showToast(
-                                                                          "Waiter name is required for LINE/AC orders",
-                                                                          context,
-                                                                          color:
-                                                                              false,
-                                                                        );
-                                                                        return;
-                                                                      }
-                                                                      else if (((widget.isEditingOrder == null || widget.isEditingOrder == false)) || (widget.isEditingOrder == true && ((postAddToBillingModel.total != widget.existingOrder?.data!.total  || haveAddonsChanged())
+                                                                      // if ((selectedValue ==
+                                                                      //             null &&
+                                                                      //         selectedOrderType ==
+                                                                      //             OrderType.line) ||
+                                                                      //     (selectedValue ==
+                                                                      //             null &&
+                                                                      //         selectedOrderType ==
+                                                                      //             OrderType.ac)) {
+                                                                      //   setState(() {
+                                                                      //     isCompleteOrder =
+                                                                      //         false;
+                                                                      //   });
+                                                                      //   showToast(
+                                                                      //     "Table number is required for LINE/AC orders",
+                                                                      //     context,
+                                                                      //     color:
+                                                                      //         false,
+                                                                      //   );
+                                                                      //   return;
+                                                                      // } else if ((selectedValueWaiter ==
+                                                                      //             null &&
+                                                                      //         selectedOrderType ==
+                                                                      //             OrderType.line) ||
+                                                                      //     (selectedValueWaiter ==
+                                                                      //             null &&
+                                                                      //         selectedOrderType ==
+                                                                      //             OrderType.ac)) {
+                                                                      //   setState(() {
+                                                                      //     isCompleteOrder =
+                                                                      //         false;
+                                                                      //   });
+                                                                      //   showToast(
+                                                                      //     "Waiter name is required for LINE/AC orders",
+                                                                      //     context,
+                                                                      //     color:
+                                                                      //         false,
+                                                                      //   );
+                                                                      //   return;
+                                                                      // }
+                                                                     // else
+                                                                        if (((widget.isEditingOrder == null || widget.isEditingOrder == false)) || (widget.isEditingOrder == true && ((postAddToBillingModel.total != widget.existingOrder?.data!.total  || haveAddonsChanged())
                                                                           && widget.existingOrder?.data!.orderStatus == "WAITLIST"))) {
                                                                         setState(() {
                                                                           isCompleteOrder = false;
@@ -6548,22 +6549,22 @@ class HomePageViewState extends State<HomePageView>  with TickerProviderStateMix
                                                                         if (widget.isEditingOrder == true &&
                                                                             ((postAddToBillingModel.total != widget.existingOrder?.data!.total || haveAddonsChanged())
                                                                                 && widget.existingOrder?.data!.orderStatus == "WAITLIST")) {
-                                                                          if (((selectedValue == null || selectedValue == 'N/A') && selectedOrderType == OrderType.line) || (selectedValue == null || selectedValue == 'N/A') && selectedOrderType == OrderType.ac) {
-                                                                            showToast("Table number is required for LINE/AC orders", context, color: false);
-                                                                            setState(() {
-                                                                              orderLoad = false;
-                                                                            });
-                                                                          } else if (((selectedValueWaiter == null || selectedValueWaiter == 'N/A') && selectedOrderType == OrderType.line) || (selectedValueWaiter == null || selectedValueWaiter == 'N/A') && selectedOrderType == OrderType.ac) {
-                                                                            showToast("Waiter name is required for LINE/AC orders", context, color: false);
-                                                                            setState(() {
-                                                                              orderLoad = false;
-                                                                            });
-                                                                          } else {
+                                                                          // if (((selectedValue == null || selectedValue == 'N/A') && selectedOrderType == OrderType.line) || (selectedValue == null || selectedValue == 'N/A') && selectedOrderType == OrderType.ac) {
+                                                                          //   showToast("Table number is required for LINE/AC orders", context, color: false);
+                                                                          //   setState(() {
+                                                                          //     orderLoad = false;
+                                                                          //   });
+                                                                          // } else if (((selectedValueWaiter == null || selectedValueWaiter == 'N/A') && selectedOrderType == OrderType.line) || (selectedValueWaiter == null || selectedValueWaiter == 'N/A') && selectedOrderType == OrderType.ac) {
+                                                                          //   showToast("Waiter name is required for LINE/AC orders", context, color: false);
+                                                                          //   setState(() {
+                                                                          //     orderLoad = false;
+                                                                          //   });
+                                                                          // } else {
                                                                             setState(() {
                                                                               isCompleteOrder = false;
                                                                             });
                                                                             context.read<FoodCategoryBloc>().add(UpdateOrder(jsonEncode(orderPayload), widget.existingOrder?.data!.id));
-                                                                          }
+                                                                          //}
                                                                         } else {
                                                                           setState(() {
                                                                             isCompleteOrder = false;
@@ -6618,36 +6619,36 @@ class HomePageViewState extends State<HomePageView>  with TickerProviderStateMix
                                                           : ElevatedButton(
                                                               onPressed: () {
                                                                 /* Full payment */
-                                                                if ((selectedValue ==
-                                                                            null &&
-                                                                        selectedOrderType ==
-                                                                            OrderType.line) ||
-                                                                    (selectedValue ==
-                                                                            null &&
-                                                                        selectedOrderType ==
-                                                                            OrderType.ac)) {
-                                                                  showToast(
-                                                                    "Table number is required for LINE/AC orders",
-                                                                    context,
-                                                                    color:
-                                                                        false,
-                                                                  );
-                                                                } else if ((selectedValueWaiter ==
-                                                                            null &&
-                                                                        selectedOrderType ==
-                                                                            OrderType.line) ||
-                                                                    (selectedValueWaiter ==
-                                                                            null &&
-                                                                        selectedOrderType ==
-                                                                            OrderType.ac)) {
-                                                                  showToast(
-                                                                    "Waiter name is required for LINE/AC orders",
-                                                                    context,
-                                                                    color:
-                                                                        false,
-                                                                  );
-                                                                }
-                                                                else {
+                                                                // if ((selectedValue ==
+                                                                //             null &&
+                                                                //         selectedOrderType ==
+                                                                //             OrderType.line) ||
+                                                                //     (selectedValue ==
+                                                                //             null &&
+                                                                //         selectedOrderType ==
+                                                                //             OrderType.ac)) {
+                                                                //   showToast(
+                                                                //     "Table number is required for LINE/AC orders",
+                                                                //     context,
+                                                                //     color:
+                                                                //         false,
+                                                                //   );
+                                                                // } else if ((selectedValueWaiter ==
+                                                                //             null &&
+                                                                //         selectedOrderType ==
+                                                                //             OrderType.line) ||
+                                                                //     (selectedValueWaiter ==
+                                                                //             null &&
+                                                                //         selectedOrderType ==
+                                                                //             OrderType.ac)) {
+                                                                //   showToast(
+                                                                //     "Waiter name is required for LINE/AC orders",
+                                                                //     context,
+                                                                //     color:
+                                                                //         false,
+                                                                //   );
+                                                                // }
+                                                                // else {
                                                                   if ((widget.isEditingOrder ==
                                                                               false ||
                                                                           widget.isEditingOrder ==
@@ -7100,7 +7101,7 @@ class HomePageViewState extends State<HomePageView>  with TickerProviderStateMix
                                                                       }
                                                                     }
                                                                   }
-                                                                }
+                                                               // }
                                                               },
                                                               style: ElevatedButton.styleFrom(
                                                                 backgroundColor:
@@ -7163,38 +7164,38 @@ class HomePageViewState extends State<HomePageView>  with TickerProviderStateMix
                                                       return;
                                                     }
 
-                                                    if ((selectedValue ==
-                                                                null &&
-                                                            selectedOrderType ==
-                                                                OrderType
-                                                                    .line) ||
-                                                        (selectedValue ==
-                                                                null &&
-                                                            selectedOrderType ==
-                                                                OrderType.ac)) {
-                                                      showToast(
-                                                        "Table number is required for LINE/AC orders",
-                                                        context,
-                                                        color: false,
-                                                      );
-                                                      return;
-                                                    }
-                                                    if ((selectedValueWaiter ==
-                                                                null &&
-                                                            selectedOrderType ==
-                                                                OrderType
-                                                                    .line) ||
-                                                        (selectedValueWaiter ==
-                                                                null &&
-                                                            selectedOrderType ==
-                                                                OrderType.ac)) {
-                                                      showToast(
-                                                        "Waiter name is required for LINE/AC orders",
-                                                        context,
-                                                        color: false,
-                                                      );
-                                                      return;
-                                                    }
+                                                    // if ((selectedValue ==
+                                                    //             null &&
+                                                    //         selectedOrderType ==
+                                                    //             OrderType
+                                                    //                 .line) ||
+                                                    //     (selectedValue ==
+                                                    //             null &&
+                                                    //         selectedOrderType ==
+                                                    //             OrderType.ac)) {
+                                                    //   showToast(
+                                                    //     "Table number is required for LINE/AC orders",
+                                                    //     context,
+                                                    //     color: false,
+                                                    //   );
+                                                    //   return;
+                                                    // }
+                                                    // if ((selectedValueWaiter ==
+                                                    //             null &&
+                                                    //         selectedOrderType ==
+                                                    //             OrderType
+                                                    //                 .line) ||
+                                                    //     (selectedValueWaiter ==
+                                                    //             null &&
+                                                    //         selectedOrderType ==
+                                                    //             OrderType.ac)) {
+                                                    //   showToast(
+                                                    //     "Waiter name is required for LINE/AC orders",
+                                                    //     context,
+                                                    //     color: false,
+                                                    //   );
+                                                    //   return;
+                                                    // }
                                                     List<Map<String, dynamic>>
                                                     payments = [];
                                                     if ((widget.isEditingOrder ==
@@ -13025,202 +13026,105 @@ class HomePageViewState extends State<HomePageView>  with TickerProviderStateMix
                                           )
                                               : ElevatedButton(
                                             onPressed: () {
-                                              if ((selectedValue ==
-                                                  null &&
-                                                  selectedOrderType ==
-                                                      OrderType.line) ||
-                                                  (selectedValue ==
-                                                      null &&
-                                                      selectedOrderType ==
-                                                          OrderType.ac)) {
+                                              // if ((selectedValue ==
+                                              //     null &&
+                                              //     selectedOrderType ==
+                                              //         OrderType.line) ||
+                                              //     (selectedValue ==
+                                              //         null &&
+                                              //         selectedOrderType ==
+                                              //             OrderType.ac)) {
+                                              //   setState(() {
+                                              //     isCompleteOrder =
+                                              //     false;
+                                              //   });
+                                              //   showToast(
+                                              //     "Table number is required for LINE/AC orders",
+                                              //     context,
+                                              //     color:
+                                              //     false,
+                                              //   );
+                                              //   return;
+                                              // } else if ((selectedValueWaiter ==
+                                              //     null &&
+                                              //     selectedOrderType ==
+                                              //         OrderType.line) ||
+                                              //     (selectedValueWaiter ==
+                                              //         null &&
+                                              //         selectedOrderType ==
+                                              //             OrderType.ac)) {
+                                              //   setState(() {
+                                              //     isCompleteOrder =
+                                              //     false;
+                                              //   });
+                                              //   showToast(
+                                              //     "Waiter name is required for LINE/AC orders",
+                                              //     context,
+                                              //     color:
+                                              //     false,
+                                              //   );
+                                              //   return;
+                                             // } else
+                                              if (((widget.isEditingOrder == null || widget.isEditingOrder == false)) || (widget.isEditingOrder == true && ((postAddToBillingModel.total != widget.existingOrder?.data!.total  || haveAddonsChanged())
+                                                  && widget.existingOrder?.data!.orderStatus == "WAITLIST"))) {
                                                 setState(() {
-                                                  isCompleteOrder =
-                                                  false;
+                                                  isCompleteOrder = false;
                                                 });
-                                                showToast(
-                                                  "Table number is required for LINE/AC orders",
-                                                  context,
-                                                  color:
-                                                  false,
-                                                );
-                                                return;
-                                              } else if ((selectedValueWaiter ==
-                                                  null &&
-                                                  selectedOrderType ==
-                                                      OrderType.line) ||
-                                                  (selectedValueWaiter ==
-                                                      null &&
-                                                      selectedOrderType ==
-                                                          OrderType.ac)) {
-                                                setState(() {
-                                                  isCompleteOrder =
-                                                  false;
-                                                });
-                                                showToast(
-                                                  "Waiter name is required for LINE/AC orders",
-                                                  context,
-                                                  color:
-                                                  false,
-                                                );
-                                                return;
-                                              } else if ((widget.isEditingOrder == null || widget.isEditingOrder == false) ||
-                                                  (widget.isEditingOrder == true && ((postAddToBillingModel.total != widget.existingOrder?.data!.total && haveAddonsChanged())
-                                                      && widget.existingOrder?.data!.orderStatus == "WAITLIST"))) {
-                                                setState(() {
-                                                  isCompleteOrder =
-                                                  false;
-                                                });
-                                                List<
-                                                    Map<
-                                                        String,
-                                                        dynamic
-                                                    >
-                                                >
-                                                payments = [
+                                                List<Map<String, dynamic>> payments = [
                                                   {
-                                                    "amount":
-                                                    (postAddToBillingModel.total ??
-                                                        0)
-                                                        .toDouble(),
-                                                    "balanceAmount":
-                                                    0,
-                                                    "method":
-                                                    selectedFullPaymentMethod.toUpperCase(),
+                                                    "amount": (postAddToBillingModel.total ?? 0).toDouble(),
+                                                    "balanceAmount": 0,
+                                                    "method": selectedFullPaymentMethod.toUpperCase(),
                                                   },
                                                 ];
                                                 final orderPayload = buildOrderPayload(
-                                                  postAddToBillingModel:
-                                                  postAddToBillingModel,
-                                                  tableId:
-                                                  selectedOrderType ==
-                                                      OrderType.line ||
-                                                      selectedOrderType ==
-                                                          OrderType.ac
-                                                      ? tableId
-                                                      : null,
-                                                  waiterId:
-                                                  selectedOrderType ==
-                                                      OrderType.line ||
-                                                      selectedOrderType ==
-                                                          OrderType.ac
-                                                      ? waiterId
-                                                      : null,
-                                                  orderStatus:
-                                                  'WAITLIST',
-                                                  orderType:
-                                                  selectedOrderType ==
-                                                      OrderType.line
+                                                  postAddToBillingModel: postAddToBillingModel,
+                                                  tableId: selectedOrderType == OrderType.line || selectedOrderType == OrderType.ac ? tableId : null,
+                                                  waiterId: selectedOrderType == OrderType.line || selectedOrderType == OrderType.ac ? waiterId : null,
+                                                  orderStatus: 'WAITLIST',
+                                                  orderType: selectedOrderType == OrderType.line
                                                       ? 'LINE'
-                                                      : selectedOrderType ==
-                                                      OrderType.parcel
+                                                      : selectedOrderType == OrderType.parcel
                                                       ? 'PARCEL'
-                                                      : selectedOrderType ==
-                                                      OrderType.ac
+                                                      : selectedOrderType == OrderType.ac
                                                       ? "AC"
-                                                      : selectedOrderType ==
-                                                      OrderType.hd
+                                                      : selectedOrderType == OrderType.hd
                                                       ? "HD"
                                                       : "SWIGGY",
-                                                  discountAmount: postAddToBillingModel
-                                                      .totalDiscount!
-                                                      .toStringAsFixed(
-                                                    2,
-                                                  ),
-                                                  isDiscountApplied:
-                                                  isDiscountApplied,
-                                                  tipAmount:
-                                                  tipController.text,
-                                                  payments:
-                                                  widget.isEditingOrder ==
-                                                      true
-                                                      ? []
-                                                      : payments,
+                                                  discountAmount: postAddToBillingModel.totalDiscount!.toStringAsFixed(2),
+                                                  isDiscountApplied: isDiscountApplied,
+                                                  tipAmount: tipController.text,
+                                                  payments: widget.isEditingOrder == true ? [] : payments,
                                                 );
-                                                debugPrint(
-                                                  "payloadSave:${widget.existingOrder?.data!.id}",
-                                                );
-                                                debugPrint(
-                                                  "payloadSave:${jsonEncode(orderPayload)}",
-                                                );
+                                                debugPrint("payloadSaveId:${widget.existingOrder?.data!.id}");
+                                                debugPrint("payloadSave:${jsonEncode(orderPayload)}");
                                                 setState(() {
-                                                  orderLoad =
-                                                  true;
+                                                  orderLoad = true;
                                                 });
-                                                if (widget.isEditingOrder == true && ((postAddToBillingModel.total != widget.existingOrder?.data!.total && haveAddonsChanged()) && widget.existingOrder?.data!.orderStatus == "WAITLIST")) {
-                                                  if (((selectedValue ==
-                                                      null ||
-                                                      selectedValue ==
-                                                          'N/A') &&
-                                                      selectedOrderType ==
-                                                          OrderType.line) ||
-                                                      (selectedValue ==
-                                                          null ||
-                                                          selectedValue ==
-                                                              'N/A') &&
-                                                          selectedOrderType ==
-                                                              OrderType.ac) {
-                                                    showToast(
-                                                      "Table number is required for LINE/AC orders",
-                                                      context,
-                                                      color: false,
-                                                    );
-                                                    setState(() {
-                                                      orderLoad = false;
-                                                    });
-                                                  } else if (((selectedValueWaiter ==
-                                                      null ||
-                                                      selectedValueWaiter ==
-                                                          'N/A') &&
-                                                      selectedOrderType ==
-                                                          OrderType.line) ||
-                                                      (selectedValueWaiter ==
-                                                          null ||
-                                                          selectedValueWaiter ==
-                                                              'N/A') &&
-                                                          selectedOrderType ==
-                                                              OrderType.ac) {
-                                                    showToast(
-                                                      "Waiter name is required for LINE/AC orders",
-                                                      context,
-                                                      color: false,
-                                                    );
-                                                    setState(() {
-                                                      orderLoad = false;
-                                                    });
-                                                  } else {
-                                                    setState(() {
-                                                      isCompleteOrder = false;
-                                                    });
-                                                    context
-                                                        .read<
-                                                        FoodCategoryBloc
-                                                    >()
-                                                        .add(
-                                                      UpdateOrder(
-                                                        jsonEncode(
-                                                          orderPayload,
-                                                        ),
-                                                        widget.existingOrder?.data!.id,
-                                                      ),
-                                                    );
-                                                  }
+                                                if (widget.isEditingOrder == true &&
+                                                    ((postAddToBillingModel.total != widget.existingOrder?.data!.total || haveAddonsChanged())
+                                                        && widget.existingOrder?.data!.orderStatus == "WAITLIST")) {
+                                                  // if (((selectedValue == null || selectedValue == 'N/A') && selectedOrderType == OrderType.line) || (selectedValue == null || selectedValue == 'N/A') && selectedOrderType == OrderType.ac) {
+                                                  //   showToast("Table number is required for LINE/AC orders", context, color: false);
+                                                  //   setState(() {
+                                                  //     orderLoad = false;
+                                                  //   });
+                                                  // } else if (((selectedValueWaiter == null || selectedValueWaiter == 'N/A') && selectedOrderType == OrderType.line) || (selectedValueWaiter == null || selectedValueWaiter == 'N/A') && selectedOrderType == OrderType.ac) {
+                                                  //   showToast("Waiter name is required for LINE/AC orders", context, color: false);
+                                                  //   setState(() {
+                                                  //     orderLoad = false;
+                                                  //   });
+                                                  // } else {
+                                                  setState(() {
+                                                    isCompleteOrder = false;
+                                                  });
+                                                  context.read<FoodCategoryBloc>().add(UpdateOrder(jsonEncode(orderPayload), widget.existingOrder?.data!.id));
+                                                  //}
                                                 } else {
-                                                  setState(
-                                                        () {
-                                                      isCompleteOrder = false;
-                                                    },
-                                                  );
-                                                  context
-                                                      .read<
-                                                      FoodCategoryBloc
-                                                  >()
-                                                      .add(
-                                                    GenerateOrder(
-                                                      jsonEncode(
-                                                        orderPayload,
-                                                      ),
-                                                    ),
-                                                  );
+                                                  setState(() {
+                                                    isCompleteOrder = false;
+                                                  });
+                                                  context.read<FoodCategoryBloc>().add(GenerateOrder(jsonEncode(orderPayload)));
                                                 }
                                               }
                                             },
@@ -13272,35 +13176,35 @@ class HomePageViewState extends State<HomePageView>  with TickerProviderStateMix
                                               : ElevatedButton(
                                             onPressed: () {
                                               /* Full payment */
-                                              if ((selectedValue ==
-                                                  null &&
-                                                  selectedOrderType ==
-                                                      OrderType.line) ||
-                                                  (selectedValue ==
-                                                      null &&
-                                                      selectedOrderType ==
-                                                          OrderType.ac)) {
-                                                showToast(
-                                                  "Table number is required for LINE/AC orders",
-                                                  context,
-                                                  color:
-                                                  false,
-                                                );
-                                              } else if ((selectedValueWaiter ==
-                                                  null &&
-                                                  selectedOrderType ==
-                                                      OrderType.line) ||
-                                                  (selectedValueWaiter ==
-                                                      null &&
-                                                      selectedOrderType ==
-                                                          OrderType.ac)) {
-                                                showToast(
-                                                  "Waiter name is required for LINE/AC orders",
-                                                  context,
-                                                  color:
-                                                  false,
-                                                );
-                                              } else {
+                                              // if ((selectedValue ==
+                                              //     null &&
+                                              //     selectedOrderType ==
+                                              //         OrderType.line) ||
+                                              //     (selectedValue ==
+                                              //         null &&
+                                              //         selectedOrderType ==
+                                              //             OrderType.ac)) {
+                                              //   showToast(
+                                              //     "Table number is required for LINE/AC orders",
+                                              //     context,
+                                              //     color:
+                                              //     false,
+                                              //   );
+                                              // } else if ((selectedValueWaiter ==
+                                              //     null &&
+                                              //     selectedOrderType ==
+                                              //         OrderType.line) ||
+                                              //     (selectedValueWaiter ==
+                                              //         null &&
+                                              //         selectedOrderType ==
+                                              //             OrderType.ac)) {
+                                              //   showToast(
+                                              //     "Waiter name is required for LINE/AC orders",
+                                              //     context,
+                                              //     color:
+                                              //     false,
+                                              //   );
+                                              // } else {
                                                 if ((widget.isEditingOrder ==
                                                     false ||
                                                     widget.isEditingOrder ==
@@ -13753,7 +13657,7 @@ class HomePageViewState extends State<HomePageView>  with TickerProviderStateMix
                                                     }
                                                   }
                                                 }
-                                              }
+                                             // }
                                             },
                                             style: ElevatedButton.styleFrom(
                                               backgroundColor:
@@ -13816,38 +13720,38 @@ class HomePageViewState extends State<HomePageView>  with TickerProviderStateMix
                                           return;
                                         }
 
-                                        if ((selectedValue ==
-                                            null &&
-                                            selectedOrderType ==
-                                                OrderType
-                                                    .line) ||
-                                            (selectedValue ==
-                                                null &&
-                                                selectedOrderType ==
-                                                    OrderType.ac)) {
-                                          showToast(
-                                            "Table number is required for LINE/AC orders",
-                                            context,
-                                            color: false,
-                                          );
-                                          return;
-                                        }
-                                        if ((selectedValueWaiter ==
-                                            null &&
-                                            selectedOrderType ==
-                                                OrderType
-                                                    .line) ||
-                                            (selectedValueWaiter ==
-                                                null &&
-                                                selectedOrderType ==
-                                                    OrderType.ac)) {
-                                          showToast(
-                                            "Waiter name is required for LINE/AC orders",
-                                            context,
-                                            color: false,
-                                          );
-                                          return;
-                                        }
+                                        // if ((selectedValue ==
+                                        //     null &&
+                                        //     selectedOrderType ==
+                                        //         OrderType
+                                        //             .line) ||
+                                        //     (selectedValue ==
+                                        //         null &&
+                                        //         selectedOrderType ==
+                                        //             OrderType.ac)) {
+                                        //   showToast(
+                                        //     "Table number is required for LINE/AC orders",
+                                        //     context,
+                                        //     color: false,
+                                        //   );
+                                        //   return;
+                                        // }
+                                        // if ((selectedValueWaiter ==
+                                        //     null &&
+                                        //     selectedOrderType ==
+                                        //         OrderType
+                                        //             .line) ||
+                                        //     (selectedValueWaiter ==
+                                        //         null &&
+                                        //         selectedOrderType ==
+                                        //             OrderType.ac)) {
+                                        //   showToast(
+                                        //     "Waiter name is required for LINE/AC orders",
+                                        //     context,
+                                        //     color: false,
+                                        //   );
+                                        //   return;
+                                        // }
                                         List<Map<String, dynamic>>
                                         payments = [];
                                         if ((widget.isEditingOrder ==
