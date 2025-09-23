@@ -1,0 +1,388 @@
+import 'dart:io';
+import 'package:esc_pos_utils_plus/esc_pos_utils_plus.dart';
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:print_bluetooth_thermal/print_bluetooth_thermal.dart';
+import 'package:waiterapp/ModelClass/Order/Get_view_order_model.dart';
+import 'package:waiterapp/Reusable/color.dart';
+import 'package:waiterapp/Reusable/space.dart';
+import 'package:waiterapp/Reusable/text_styles.dart';
+import 'package:waiterapp/UI/IminHelper/printer_helper.dart';
+import 'package:waiterapp/UI/KOT_printer_helper/printer_kot_helper.dart';
+import 'package:image/image.dart' as img;
+import 'package:flutter/foundation.dart';
+
+class ThermalReceiptDialog extends StatefulWidget {
+  final GetViewOrderModel getViewOrderModel;
+
+  const ThermalReceiptDialog(this.getViewOrderModel, {super.key});
+
+  @override
+  State<ThermalReceiptDialog> createState() => _ThermalReceiptDialogState();
+}
+
+class _ThermalReceiptDialogState extends State<ThermalReceiptDialog> {
+  GlobalKey kotReceiptKey = GlobalKey();
+  GlobalKey normalReceiptKey = GlobalKey();
+  List<BluetoothInfo> _devices = [];
+  bool _isScanning = false;
+
+  final TextEditingController ipController = TextEditingController();
+  final formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    super.initState();
+    // ipController.text = "192.168.1.4";
+    // if (kIsWeb) {
+    //   printerService = MockPrinterService();
+    //   printerServiceThermal = MockPrinterService();
+    // } else if (Platform.isAndroid) {
+    //   printerService = RealPrinterService();
+    //   printerServiceThermal = RealPrinterService();
+    // } else {
+    //   printerService = MockPrinterService();
+    //   printerServiceThermal = MockPrinterService();
+    // }
+  }
+
+  Future<void> _scanBluetoothDevices() async {
+    if (_isScanning) return;
+
+    setState(() {
+      _isScanning = true;
+      _devices.clear();
+    });
+
+    try {
+      // Check if Bluetooth is enabled
+      final bool result = await PrintBluetoothThermal.bluetoothEnabled;
+      if (!result) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Bluetooth is not enabled"),
+            backgroundColor: Colors.red,
+          ),
+        );
+        setState(() => _isScanning = false);
+        return;
+      }
+
+      // Get paired Bluetooth devices
+      final List<BluetoothInfo> bluetooths =
+          await PrintBluetoothThermal.pairedBluetooths;
+      setState(() {
+        _devices = bluetooths;
+        _isScanning = false;
+      });
+    } catch (e) {
+      debugPrint("Error scanning Bluetooth devices: $e");
+      setState(() => _isScanning = false);
+    }
+  }
+
+  Future<void> _selectBluetoothPrinter(BuildContext context) async {
+    await _scanBluetoothDevices();
+
+    if (_devices.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            "No paired Bluetooth printers found. Please pair your printer first.",
+          ),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+
+    showModalBottomSheet(
+      context: context,
+      builder: (_) {
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Padding(
+              padding: EdgeInsets.all(16.0),
+              child: Text(
+                "Select Bluetooth Printer",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+            ),
+            Flexible(
+              child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: _devices.length,
+                itemBuilder: (_, index) {
+                  final printer = _devices[index];
+                  return ListTile(
+                    leading: const Icon(Icons.print),
+                    title: Text(
+                      printer.name,
+                    ), // Changed from printer.name ?? "Unknown"
+                    subtitle: Text(
+                      printer.macAdress,
+                    ), // Changed from printer.address ?? ""
+                    onTap: () {
+                      Navigator.pop(context);
+                      _startKOTPrintingBluetoothOnly(context, printer);
+                    },
+                  );
+                },
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  /// BT KOT Print
+  Future<void> _startKOTPrintingBluetoothOnly(
+    BuildContext context,
+    BluetoothInfo printer,
+  ) async {
+    try {
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (_) => const Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              CircularProgressIndicator(color: appPrimaryColor),
+              SizedBox(height: 16),
+              Text(
+                "Preparing KOT for Bluetooth printer...",
+                style: TextStyle(color: whiteColor),
+              ),
+            ],
+          ),
+        ),
+      );
+
+      await Future.delayed(const Duration(milliseconds: 300));
+      await WidgetsBinding.instance.endOfFrame;
+
+      Uint8List? imageBytes = await captureMonochromeKOTReceipt(kotReceiptKey);
+
+      if (imageBytes != null) {
+        final bool connectionResult = await PrintBluetoothThermal.connect(
+          macPrinterAddress: printer.macAdress,
+        );
+
+        if (!connectionResult) {
+          throw Exception("Failed to connect to printer");
+        }
+
+        final profile = await CapabilityProfile.load();
+        final generator = Generator(PaperSize.mm58, profile);
+
+        final decodedImage = img.decodeImage(imageBytes);
+        if (decodedImage != null) {
+          // Updated API for image package v4.x
+          final resizedImage = img.copyResize(
+            decodedImage,
+            width: 384,
+            maintainAspect: true,
+          );
+
+          List<int> bytes = [];
+          bytes += generator.reset();
+
+          // For image v4.x, the imageRaster method signature may be different
+          // Check the documentation, but this should work:
+          bytes += generator.imageRaster(resizedImage);
+
+          bytes += generator.feed(2);
+          bytes += generator.cut();
+
+          final bool printResult = await PrintBluetoothThermal.writeBytes(
+            bytes,
+          );
+          await PrintBluetoothThermal.disconnect;
+
+          Navigator.of(context).pop();
+
+          if (printResult) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text("KOT printed to Bluetooth printer!"),
+                backgroundColor: greenColor,
+              ),
+            );
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text("Failed to send data to printer"),
+                backgroundColor: redColor,
+              ),
+            );
+          }
+        }
+      } else {
+        Navigator.of(context).pop();
+        throw Exception("Failed to capture KOT receipt image");
+      }
+    } catch (e) {
+      Navigator.of(context).pop();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("KOT Print failed: $e"),
+          backgroundColor: redColor,
+        ),
+      );
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final order = widget.getViewOrderModel.data!;
+    final invoice = order.invoice!;
+    var size = MediaQuery.of(context).size;
+    List<Map<String, dynamic>> items = invoice.invoiceItems!
+        .map(
+          (e) => {
+            'name': e.tamilname ?? e.name,
+            'qty': e.qty,
+            'price': (e.basePrice ?? 0).toDouble(),
+            'total': ((e.qty ?? 0) * (e.basePrice ?? 0)).toDouble(),
+          },
+        )
+        .toList();
+    String businessName = invoice.businessName ?? '';
+    String address = invoice.address ?? '';
+    String gst = invoice.gstNumber ?? '';
+    double taxAmount = (order.tax ?? 0.0).toDouble();
+    String orderNumber = order.orderNumber ?? 'N/A';
+    String paymentMethod = invoice.paidBy ?? '';
+    String phone = invoice.phone ?? '';
+    double subTotal = (invoice.subtotal ?? 0.0).toDouble();
+    double total = (invoice.total ?? 0.0).toDouble();
+    String orderType = order.orderType ?? '';
+    String orderStatus = order.orderStatus ?? '';
+    String tableName = orderType == 'LINE' || orderType == 'AC'
+        ? (invoice.tableNum ?? 'N/A')
+        : 'N/A';
+    String waiterName = orderType == 'LINE' || orderType == 'AC'
+        ? (invoice.waiterNum ?? 'N/A')
+        : 'N/A';
+    String date = DateFormat(
+      'dd/MM/yyyy hh:mm a',
+    ).format(DateFormat('M/d/yyyy, h:mm:ss a').parse(invoice.date.toString()));
+
+    return widget.getViewOrderModel.data == null
+        ? Container(
+            padding: EdgeInsets.only(
+              top: MediaQuery.of(context).size.height * 0.1,
+            ),
+            alignment: Alignment.center,
+            child: Text(
+              "No Orders found",
+              style: MyTextStyle.f16(greyColor, weight: FontWeight.w500),
+            ),
+          )
+        : Dialog(
+            backgroundColor: Colors.transparent,
+            insetPadding: const EdgeInsets.symmetric(
+              horizontal: 5,
+              vertical: 20,
+            ),
+            child: SingleChildScrollView(
+              child: Container(
+                width: size.width > 650 ? size.width * 0.4 : size.width * 0.95,
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: whiteColor,
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Column(
+                  children: [
+                    RepaintBoundary(
+                      key: normalReceiptKey,
+                      child: getThermalReceiptWidget(
+                        businessName: businessName,
+                        address: address,
+                        gst: gst,
+                        items: items,
+                        tax: taxAmount,
+                        paidBy: paymentMethod,
+                        tamilTagline: '',
+                        phone: phone,
+                        subtotal: subTotal,
+                        total: total,
+                        orderNumber: orderNumber,
+                        tableName: tableName,
+                        waiterName: waiterName,
+                        orderType: orderType,
+                        date: date,
+                        status: orderStatus,
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    if (order.orderType == "PARCEL")
+                      RepaintBoundary(
+                        key: kotReceiptKey,
+                        child: getThermalReceiptKOTWidget(
+                          businessName: businessName,
+                          address: address,
+                          gst: gst,
+                          items: items,
+                          paidBy: paymentMethod,
+                          tamilTagline: '',
+                          phone: phone,
+                          subtotal: subTotal,
+                          tax: taxAmount,
+                          total: total,
+                          orderNumber: orderNumber,
+                          tableName: tableName,
+                          waiterName: waiterName,
+                          orderType: orderType,
+                          date: date,
+                          status: orderStatus,
+                        ),
+                      ),
+                    const SizedBox(height: 10),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        if (order.orderType == "PARCEL")
+                          ElevatedButton.icon(
+                            onPressed: () {
+                              _selectBluetoothPrinter(context);
+                            },
+                            icon: const Icon(Icons.bluetooth),
+                            label: const Text("KOT(BT)"),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: greenColor,
+                              foregroundColor: whiteColor,
+                            ),
+                          ),
+                        horizontalSpace(width: 10),
+                        SizedBox(
+                          height: size.height * 0.05,
+                          child: OutlinedButton(
+                            onPressed: () => Navigator.pop(context),
+                            child: const Text(
+                              "CLOSE",
+                              style: TextStyle(color: appPrimaryColor),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 10),
+
+                    // Close Button
+                  ],
+                ),
+              ),
+            ),
+          );
+  }
+}

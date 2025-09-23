@@ -1,4 +1,4 @@
-import 'package:simple/Bloc/Response/errorResponse.dart';
+import 'package:waiterapp/Bloc/Response/errorResponse.dart';
 
 /// items : [{"name":"Apple juice","qty":1,"basePrice":120,"addonTotal":0,"subtotal":120,"totalTax":21.6,"total":141.6,"appliedTaxes":[{"name":"CGST","percentage":9,"amount":10.8,"isInclusive":false},{"name":"SGST","percentage":9,"amount":10.8,"isInclusive":false}]}]
 /// subtotal : 240
@@ -45,13 +45,12 @@ class PostAddToBillingModel {
     num? subtotal,
     num? totalTax,
     num? total,
-  }) =>
-      PostAddToBillingModel(
-        items: items ?? _items,
-        subtotal: subtotal ?? _subtotal,
-        totalTax: totalTax ?? _totalTax,
-        total: total ?? _total,
-      );
+  }) => PostAddToBillingModel(
+    items: items ?? _items,
+    subtotal: subtotal ?? _subtotal,
+    totalTax: totalTax ?? _totalTax,
+    total: total ?? _total,
+  );
   List<Items>? get items => _items;
   num? get subtotal => _subtotal;
   num? get totalTax => _totalTax;
@@ -156,20 +155,19 @@ class Items {
     num? totalTax,
     num? total,
     List<AppliedTaxes>? appliedTaxes,
-  }) =>
-      Items(
-        id: id ?? _id,
-        name: name ?? _name,
-        qty: qty ?? _qty,
-        image: image ?? _image,
-        basePrice: basePrice ?? _basePrice,
-        addonTotal: addonTotal ?? _addonTotal,
-        selectedAddons: selectedAddons ?? _selectedAddons,
-        subtotal: subtotal ?? _subtotal,
-        totalTax: totalTax ?? _totalTax,
-        total: total ?? _total,
-        appliedTaxes: appliedTaxes ?? _appliedTaxes,
-      );
+  }) => Items(
+    id: id ?? _id,
+    name: name ?? _name,
+    qty: qty ?? _qty,
+    image: image ?? _image,
+    basePrice: basePrice ?? _basePrice,
+    addonTotal: addonTotal ?? _addonTotal,
+    selectedAddons: selectedAddons ?? _selectedAddons,
+    subtotal: subtotal ?? _subtotal,
+    totalTax: totalTax ?? _totalTax,
+    total: total ?? _total,
+    appliedTaxes: appliedTaxes ?? _appliedTaxes,
+  );
   String? get id => _id;
   String? get name => _name;
   num? get qty => _qty;
@@ -236,13 +234,12 @@ class AppliedTaxes {
     num? percentage,
     num? amount,
     bool? isInclusive,
-  }) =>
-      AppliedTaxes(
-        name: name ?? _name,
-        percentage: percentage ?? _percentage,
-        amount: amount ?? _amount,
-        isInclusive: isInclusive ?? _isInclusive,
-      );
+  }) => AppliedTaxes(
+    name: name ?? _name,
+    percentage: percentage ?? _percentage,
+    amount: amount ?? _amount,
+    isInclusive: isInclusive ?? _isInclusive,
+  );
   String? get name => _name;
   num? get percentage => _percentage;
   num? get amount => _amount;
@@ -322,16 +319,15 @@ class SelectedAddons {
     bool? isAvailable,
     num? total,
     num? qty,
-  }) =>
-      SelectedAddons(
-        id: id ?? _id,
-        name: name ?? _name,
-        price: price ?? _price,
-        quantity: quantity ?? _quantity,
-        isFree: isFree ?? _isFree,
-        isAvailable: isAvailable ?? _isAvailable,
-        total: total ?? _total,
-      );
+  }) => SelectedAddons(
+    id: id ?? _id,
+    name: name ?? _name,
+    price: price ?? _price,
+    quantity: quantity ?? _quantity,
+    isFree: isFree ?? _isFree,
+    isAvailable: isAvailable ?? _isAvailable,
+    total: total ?? _total,
+  );
   String? get id => _id;
   String? get name => _name;
   num? get price => _price;

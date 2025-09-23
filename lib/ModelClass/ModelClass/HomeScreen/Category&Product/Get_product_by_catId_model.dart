@@ -1,4 +1,4 @@
-import 'package:simple/Bloc/Response/errorResponse.dart';
+import 'package:waiterapp/Bloc/Response/errorResponse.dart';
 
 /// success : true
 /// rows : [{"_id":"685579649330a7ce88e92838","name":"Black Forest","category":{"_id":"685541db400f8fb4c8c8c7ee","name":"Cakes","isAvailable":true,"image":"https://res.cloudinary.com/dm6wrm7vf/image/upload/v1750826817/categories/grxwq0v6cxzaqi4kp2up.jpg"},"basePrice":75,"hasAddons":true,"isAvailable":true,"createdBy":"6852f46f0ccccfaec54776cc","createdAt":"2025-06-20T15:08:20.350Z","updatedAt":"2025-07-07T14:25:35.097Z","__v":0,"image":"https://res.cloudinary.com/dm6wrm7vf/image/upload/v1750826868/products/sw53luofnaposs603yv4.jpg","addons":[{"_id":"685d048f11d74caf4073f8d6","name":"Cream powder","maxQuantity":1,"price":20,"isAvailable":true,"isFree":false,"products":["685579649330a7ce88e92838","685b7f8f8753e2ece10465df","685b7fa98753e2ece10465e7"]}]},{"_id":"685b7f8f8753e2ece10465df","name":"Red velvet","category":{"_id":"685541db400f8fb4c8c8c7ee","name":"Cakes","isAvailable":true,"image":"https://res.cloudinary.com/dm6wrm7vf/image/upload/v1750826817/categories/grxwq0v6cxzaqi4kp2up.jpg"},"basePrice":100,"hasAddons":true,"image":"https://res.cloudinary.com/dm6wrm7vf/image/upload/v1750826895/products/plfepz8r4nbe0xn3oqez.jpg","isAvailable":true,"createdBy":"6852f46f0ccccfaec54776cc","createdAt":"2025-06-25T04:48:15.772Z","updatedAt":"2025-06-26T05:54:23.181Z","__v":0,"addons":[{"_id":"685d048f11d74caf4073f8d6","name":"Cream powder","maxQuantity":1,"price":20,"isAvailable":true,"isFree":false,"products":["685579649330a7ce88e92838","685b7f8f8753e2ece10465df","685b7fa98753e2ece10465e7"]}]},{"_id":"685b7fa98753e2ece10465e7","name":"White forest","category":{"_id":"685541db400f8fb4c8c8c7ee","name":"Cakes","isAvailable":true,"image":"https://res.cloudinary.com/dm6wrm7vf/image/upload/v1750826817/categories/grxwq0v6cxzaqi4kp2up.jpg"},"basePrice":60,"hasAddons":true,"image":"https://res.cloudinary.com/dm6wrm7vf/image/upload/v1750826921/products/lxjmbmzie0wbnczf3afi.jpg","isAvailable":true,"createdBy":"6852f46f0ccccfaec54776cc","createdAt":"2025-06-25T04:48:41.520Z","updatedAt":"2025-06-25T04:48:41.520Z","__v":0,"addons":[{"_id":"685d048f11d74caf4073f8d6","name":"Cream powder","maxQuantity":1,"price":20,"isAvailable":true,"isFree":false,"products":["685579649330a7ce88e92838","685b7f8f8753e2ece10465df","685b7fa98753e2ece10465e7"]}]}]
@@ -39,12 +39,11 @@ class GetProductByCatIdModel {
     bool? success,
     List<Rows>? rows,
     num? count,
-  }) =>
-      GetProductByCatIdModel(
-        success: success ?? _success,
-        rows: rows ?? _rows,
-        count: count ?? _count,
-      );
+  }) => GetProductByCatIdModel(
+    success: success ?? _success,
+    rows: rows ?? _rows,
+    count: count ?? _count,
+  );
   bool? get success => _success;
   List<Rows>? get rows => _rows;
   num? get count => _count;
@@ -110,8 +109,9 @@ class Rows {
   Rows.fromJson(dynamic json) : counter = 0 {
     _id = json['_id'];
     _name = json['name'];
-    _category =
-        json['category'] != null ? Category.fromJson(json['category']) : null;
+    _category = json['category'] != null
+        ? Category.fromJson(json['category'])
+        : null;
     _basePrice = json['basePrice'];
     _hasAddons = json['hasAddons'];
     _isAvailable = json['isAvailable'];
@@ -152,21 +152,20 @@ class Rows {
     num? v,
     String? image,
     List<Addons>? addons,
-  }) =>
-      Rows(
-        id: id ?? _id,
-        name: name ?? _name,
-        category: category ?? _category,
-        basePrice: basePrice ?? _basePrice,
-        hasAddons: hasAddons ?? _hasAddons,
-        isAvailable: isAvailable ?? _isAvailable,
-        createdBy: createdBy ?? _createdBy,
-        createdAt: createdAt ?? _createdAt,
-        updatedAt: updatedAt ?? _updatedAt,
-        v: v ?? _v,
-        image: image ?? _image,
-        addons: addons ?? _addons,
-      );
+  }) => Rows(
+    id: id ?? _id,
+    name: name ?? _name,
+    category: category ?? _category,
+    basePrice: basePrice ?? _basePrice,
+    hasAddons: hasAddons ?? _hasAddons,
+    isAvailable: isAvailable ?? _isAvailable,
+    createdBy: createdBy ?? _createdBy,
+    createdAt: createdAt ?? _createdAt,
+    updatedAt: updatedAt ?? _updatedAt,
+    v: v ?? _v,
+    image: image ?? _image,
+    addons: addons ?? _addons,
+  );
   String? get id => _id;
   String? get name => _name;
   Category? get category => _category;
@@ -269,18 +268,17 @@ class Addons {
     List<String>? products,
     bool? isSelected,
     num? quantity,
-  }) =>
-      Addons(
-        id: id ?? _id,
-        name: name ?? _name,
-        maxQuantity: maxQuantity ?? _maxQuantity,
-        price: price ?? _price,
-        isAvailable: isAvailable ?? _isAvailable,
-        isFree: isFree ?? _isFree,
-        products: products ?? _products,
-        isSelected: isSelected ?? this.isSelected,
-        quantity: quantity ?? _quantity,
-      );
+  }) => Addons(
+    id: id ?? _id,
+    name: name ?? _name,
+    maxQuantity: maxQuantity ?? _maxQuantity,
+    price: price ?? _price,
+    isAvailable: isAvailable ?? _isAvailable,
+    isFree: isFree ?? _isFree,
+    products: products ?? _products,
+    isSelected: isSelected ?? this.isSelected,
+    quantity: quantity ?? _quantity,
+  );
 
   // ✅ Public getters
   String? get id => _id;
@@ -311,12 +309,7 @@ class Addons {
 /// image : "https://res.cloudinary.com/dm6wrm7vf/image/upload/v1750826817/categories/grxwq0v6cxzaqi4kp2up.jpg"
 
 class Category {
-  Category({
-    String? id,
-    String? name,
-    bool? isAvailable,
-    String? image,
-  }) {
+  Category({String? id, String? name, bool? isAvailable, String? image}) {
     _id = id;
     _name = name;
     _isAvailable = isAvailable;
@@ -338,13 +331,12 @@ class Category {
     String? name,
     bool? isAvailable,
     String? image,
-  }) =>
-      Category(
-        id: id ?? _id,
-        name: name ?? _name,
-        isAvailable: isAvailable ?? _isAvailable,
-        image: image ?? _image,
-      );
+  }) => Category(
+    id: id ?? _id,
+    name: name ?? _name,
+    isAvailable: isAvailable ?? _isAvailable,
+    image: image ?? _image,
+  );
   String? get id => _id;
   String? get name => _name;
   bool? get isAvailable => _isAvailable;

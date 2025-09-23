@@ -1,4 +1,4 @@
-import 'package:simple/Bloc/Response/errorResponse.dart';
+import 'package:waiterapp/Bloc/Response/errorResponse.dart';
 
 /// success : true
 /// data : [{"id":"68721cb522da118ea8d7578b","name":"2","isAvailable":true,"createdBy":"Saranya","createdAt":"2025-07-12","updatedAt":"2025-07-12T08:28:37.818Z","statusText":"Available"},{"id":"68721cb022da118ea8d75783","name":"1","isAvailable":true,"createdBy":"Saranya","createdAt":"2025-07-12","updatedAt":"2025-07-12T08:28:32.374Z","statusText":"Available"}]
@@ -35,11 +35,7 @@ class GetTableModel {
   List<Data>? _data;
   num? _totalCount;
   ErrorResponse? errorResponse;
-  GetTableModel copyWith({
-    bool? success,
-    List<Data>? data,
-    num? totalCount,
-  }) =>
+  GetTableModel copyWith({bool? success, List<Data>? data, num? totalCount}) =>
       GetTableModel(
         success: success ?? _success,
         data: data ?? _data,
@@ -114,16 +110,15 @@ class Data {
     String? createdAt,
     String? updatedAt,
     String? statusText,
-  }) =>
-      Data(
-        id: id ?? _id,
-        name: name ?? _name,
-        isAvailable: isAvailable ?? _isAvailable,
-        createdBy: createdBy ?? _createdBy,
-        createdAt: createdAt ?? _createdAt,
-        updatedAt: updatedAt ?? _updatedAt,
-        statusText: statusText ?? _statusText,
-      );
+  }) => Data(
+    id: id ?? _id,
+    name: name ?? _name,
+    isAvailable: isAvailable ?? _isAvailable,
+    createdBy: createdBy ?? _createdBy,
+    createdAt: createdAt ?? _createdAt,
+    updatedAt: updatedAt ?? _updatedAt,
+    statusText: statusText ?? _statusText,
+  );
   String? get id => _id;
   String? get name => _name;
   bool? get isAvailable => _isAvailable;

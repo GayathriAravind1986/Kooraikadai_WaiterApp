@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:simple/Api/apiProvider.dart';
+import 'package:waiterapp/Api/apiProvider.dart';
 
 abstract class LoginInEvent {}
 
@@ -12,11 +12,14 @@ class LoginIn extends LoginInEvent {
 class LoginInBloc extends Bloc<LoginInEvent, dynamic> {
   LoginInBloc() : super(dynamic) {
     on<LoginIn>((event, emit) async {
-      await ApiProvider().loginAPI(event.email, event.password).then((value) {
-        emit(value);
-      }).catchError((error) {
-        emit(error);
-      });
+      await ApiProvider()
+          .loginAPI(event.email, event.password)
+          .then((value) {
+            emit(value);
+          })
+          .catchError((error) {
+            emit(error);
+          });
     });
   }
 }

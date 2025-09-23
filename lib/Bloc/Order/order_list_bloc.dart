@@ -1,12 +1,21 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:simple/Api/apiProvider.dart';
+import 'package:waiterapp/Api/apiProvider.dart';
 
 abstract class OrderTodayEvent {}
 
 class OrderTodayList extends OrderTodayEvent {
   String fromDate;
   String toDate;
-  OrderTodayList(this.fromDate, this.toDate);
+  String tableId;
+  String waiterId;
+  String userId;
+  OrderTodayList(
+    this.fromDate,
+    this.toDate,
+    this.tableId,
+    this.waiterId,
+    this.userId,
+  );
 }
 
 class DeleteOrder extends OrderTodayEvent {
@@ -19,37 +28,107 @@ class ViewOrder extends OrderTodayEvent {
   ViewOrder(this.orderId);
 }
 
+class TableDine extends OrderTodayEvent {}
+
+class WaiterDine extends OrderTodayEvent {}
+
+class UserDetails extends OrderTodayEvent {}
+
+class StockDetails extends OrderTodayEvent {}
+
+class UpdateOrder extends OrderTodayEvent {
+  final String orderPayloadJson;
+  String? orderId;
+  UpdateOrder(this.orderPayloadJson, this.orderId);
+}
+
 class OrderTodayBloc extends Bloc<OrderTodayEvent, dynamic> {
   OrderTodayBloc() : super(dynamic) {
     on<OrderTodayList>((event, emit) async {
       await ApiProvider()
-          .getOrderTodayAPI(event.fromDate, event.toDate)
+          .getOrderTodayAPI(
+            event.fromDate,
+            event.toDate,
+            event.tableId,
+            event.waiterId,
+            event.userId,
+          )
           .then((value) {
-        emit(value);
-      }).catchError((error) {
-        emit(error);
-      });
+            emit(value);
+          })
+          .catchError((error) {
+            emit(error);
+          });
     });
     on<DeleteOrder>((event, emit) async {
-      await ApiProvider().deleteOrderAPI(event.orderId).then((value) {
-        emit(value);
-      }).catchError((error) {
-        emit(error);
-      });
+      await ApiProvider()
+          .deleteOrderAPI(event.orderId)
+          .then((value) {
+            emit(value);
+          })
+          .catchError((error) {
+            emit(error);
+          });
     });
     on<ViewOrder>((event, emit) async {
-      await ApiProvider().viewOrderAPI(event.orderId).then((value) {
-        emit(value);
-      }).catchError((error) {
-        emit(error);
-      });
+      await ApiProvider()
+          .viewOrderAPI(event.orderId)
+          .then((value) {
+            emit(value);
+          })
+          .catchError((error) {
+            emit(error);
+          });
     });
-    // on<AddToBilling>((event, emit) async {
-    //   await ApiProvider().postAddToBillingAPI(event.billingItems).then((value) {
-    //     emit(value);
-    //   }).catchError((error) {
-    //     emit(error);
-    //   });
-    // });
+    on<TableDine>((event, emit) async {
+      await ApiProvider()
+          .getTableAPI()
+          .then((value) {
+            emit(value);
+          })
+          .catchError((error) {
+            emit(error);
+          });
+    });
+    on<WaiterDine>((event, emit) async {
+      await ApiProvider()
+          .getWaiterAPI()
+          .then((value) {
+            emit(value);
+          })
+          .catchError((error) {
+            emit(error);
+          });
+    });
+    on<UserDetails>((event, emit) async {
+      await ApiProvider()
+          .getUserDetailsAPI()
+          .then((value) {
+            emit(value);
+          })
+          .catchError((error) {
+            emit(error);
+          });
+    });
+    on<StockDetails>((event, emit) async {
+      await ApiProvider()
+          .getStockDetailsAPI()
+          .then((value) {
+            emit(value);
+          })
+          .catchError((error) {
+            emit(error);
+          });
+    });
+    on<UpdateOrder>((event, emit) async {
+      await ApiProvider()
+          .updateGenerateOrderAPI(event.orderPayloadJson, event.orderId)
+          .then((value) {
+            emit(value);
+          })
+          .catchError((error) {
+            emit(error);
+          });
+    });
   }
 }

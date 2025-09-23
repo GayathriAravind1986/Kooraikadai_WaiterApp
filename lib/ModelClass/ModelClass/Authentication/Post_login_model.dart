@@ -1,4 +1,4 @@
-import 'package:simple/Bloc/Response/errorResponse.dart';
+import 'package:waiterapp/Bloc/Response/errorResponse.dart';
 
 /// success : true
 /// token : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4NTJmNDZmMGNjY2NmYWVjNTQ3NzZjYyIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc1MTg2OTQ1MCwiZXhwIjoxNzUxOTU1ODUwfQ.IXYF7idvNgeEMXVgZ7faiWuV9r7-cjtv91S88fi3lsU"
@@ -29,11 +29,7 @@ class PostLoginModel {
   String? _token;
   String? _message;
   ErrorResponse? errorResponse;
-  PostLoginModel copyWith({
-    bool? success,
-    String? token,
-    String? message,
-  }) =>
+  PostLoginModel copyWith({bool? success, String? token, String? message}) =>
       PostLoginModel(
         success: success ?? _success,
         token: token ?? _token,

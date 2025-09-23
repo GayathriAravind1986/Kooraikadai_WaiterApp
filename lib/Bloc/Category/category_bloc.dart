@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:simple/Api/apiProvider.dart';
+import 'package:waiterapp/Api/apiProvider.dart';
+import 'package:waiterapp/UI/Landing/Home/home_screen.dart';
 
 abstract class FoodCategoryEvent {}
 
@@ -8,12 +9,23 @@ class FoodCategory extends FoodCategoryEvent {}
 class FoodProductItem extends FoodCategoryEvent {
   String catId;
   String searchKey;
-  FoodProductItem(this.catId, this.searchKey);
+  String searchCode;
+  String limit;
+  String offset;
+  FoodProductItem(
+    this.catId,
+    this.searchKey,
+    this.searchCode,
+    this.limit,
+    this.offset,
+  );
 }
 
 class AddToBilling extends FoodCategoryEvent {
   List<Map<String, dynamic>> billingItems;
-  AddToBilling(this.billingItems);
+  bool? isDiscount;
+  final OrderType? orderType;
+  AddToBilling(this.billingItems, this.isDiscount, this.orderType);
 }
 
 class GenerateOrder extends FoodCategoryEvent {
@@ -29,55 +41,101 @@ class UpdateOrder extends FoodCategoryEvent {
 
 class TableDine extends FoodCategoryEvent {}
 
+class WaiterDine extends FoodCategoryEvent {}
+
+class StockDetails extends FoodCategoryEvent {}
+
 class FoodCategoryBloc extends Bloc<FoodCategoryEvent, dynamic> {
   FoodCategoryBloc() : super(dynamic) {
     on<FoodCategory>((event, emit) async {
-      await ApiProvider().getCategoryAPI().then((value) {
-        emit(value);
-      }).catchError((error) {
-        emit(error);
-      });
+      await ApiProvider()
+          .getCategoryAPI()
+          .then((value) {
+            emit(value);
+          })
+          .catchError((error) {
+            emit(error);
+          });
     });
     on<FoodProductItem>((event, emit) async {
       await ApiProvider()
-          .getProductItemAPI(event.catId, event.searchKey)
+          .getProductItemAPI(
+            event.catId,
+            event.searchKey,
+            event.searchCode,
+            event.limit,
+            event.offset,
+          )
           .then((value) {
-        emit(value);
-      }).catchError((error) {
-        emit(error);
-      });
+            emit(value);
+          })
+          .catchError((error) {
+            emit(error);
+          });
     });
     on<AddToBilling>((event, emit) async {
-      await ApiProvider().postAddToBillingAPI(event.billingItems).then((value) {
-        emit(value);
-      }).catchError((error) {
-        emit(error);
-      });
+      await ApiProvider()
+          .postAddToBillingAPI(
+            event.billingItems,
+            event.isDiscount,
+            event.orderType?.apiValue,
+          )
+          .then((value) {
+            emit(value);
+          })
+          .catchError((error) {
+            emit(error);
+          });
     });
     on<GenerateOrder>((event, emit) async {
       await ApiProvider()
           .postGenerateOrderAPI(event.orderPayloadJson)
           .then((value) {
-        emit(value);
-      }).catchError((error) {
-        emit(error);
-      });
+            emit(value);
+          })
+          .catchError((error) {
+            emit(error);
+          });
     });
     on<UpdateOrder>((event, emit) async {
       await ApiProvider()
           .updateGenerateOrderAPI(event.orderPayloadJson, event.orderId)
           .then((value) {
-        emit(value);
-      }).catchError((error) {
-        emit(error);
-      });
+            emit(value);
+          })
+          .catchError((error) {
+            emit(error);
+          });
     });
     on<TableDine>((event, emit) async {
-      await ApiProvider().getTableAPI().then((value) {
-        emit(value);
-      }).catchError((error) {
-        emit(error);
-      });
+      await ApiProvider()
+          .getTableAPI()
+          .then((value) {
+            emit(value);
+          })
+          .catchError((error) {
+            emit(error);
+          });
+    });
+    on<WaiterDine>((event, emit) async {
+      await ApiProvider()
+          .getWaiterAPI()
+          .then((value) {
+            emit(value);
+          })
+          .catchError((error) {
+            emit(error);
+          });
+    });
+    on<StockDetails>((event, emit) async {
+      await ApiProvider()
+          .getStockDetailsAPI()
+          .then((value) {
+            emit(value);
+          })
+          .catchError((error) {
+            emit(error);
+          });
     });
   }
 }
