@@ -318,9 +318,8 @@ class OrderPageViewState extends State<OrderPageView>
                           if (MediaQuery.of(context).size.width >= 500)
                             SizedBox(width: 8),
                           if ((operatorId == userId ||
-                                  userId == null ||
-                                  userId == "") &&
-                              order.orderStatus != 'COMPLETED')
+                              userId == null ||
+                              userId == ""))
                             IconButton(
                               padding: EdgeInsets.zero,
                               constraints: BoxConstraints(),
