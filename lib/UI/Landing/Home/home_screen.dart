@@ -445,73 +445,85 @@ class HomePageViewState extends State<HomePageView>  with TickerProviderStateMix
           backgroundColor: Colors.transparent,
           insetPadding:
           const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
-          child: SingleChildScrollView(
-            child: Container(
-              width: MediaQuery.of(context).size.width>=650?MediaQuery.of(context).size.width * 0.4:MediaQuery.of(context).size.width * 0.95,
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: whiteColor,
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: Column(
-                children: [
-                  // KOT Receipt (for kitchen)
-                  if (postGenerateOrderModel.order!.orderType == "PARCEL")
-                    RepaintBoundary(
-                      key: kotReceiptKey,
-                      child: getThermalReceiptKOTWidget(
-                        businessName: businessName,
-                        address: address,
-                        gst: gst,
-                        items: items,
-                        paidBy: paymentMethod,
-                        tamilTagline: '',
-                        phone: phone,
-                        subtotal: subTotal,
-                        tax: taxPercent,
-                        total: total,
-                        orderNumber: orderNumber,
-                        tableName: tableName,
-                        waiterName: waiterName,
-                        orderType: orderType,
-                        date: date,
-                        status: orderStatus,
-                      ),
+          child: Stack(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(bottom: 80),
+                child: SingleChildScrollView(
+                  child: Container(
+                    width: MediaQuery.of(context).size.width>=650?MediaQuery.of(context).size.width * 0.4:MediaQuery.of(context).size.width * 0.95,
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: whiteColor,
+                      borderRadius: BorderRadius.circular(16),
                     ),
-
-                  const SizedBox(height: 20),
-
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      if (postGenerateOrderModel.order!.orderType == "PARCEL")
-                        ElevatedButton.icon(
-                          onPressed: () {
-                            _selectBluetoothPrinter(context);
-                          },
-                          icon: const Icon(Icons.bluetooth),
-                          label: const Text("KOT(BT)"),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: greenColor,
-                            foregroundColor: whiteColor,
+                    child: Column(
+                      children: [
+                        // KOT Receipt (for kitchen)
+                        if (postGenerateOrderModel.order!.orderType == "PARCEL")
+                          RepaintBoundary(
+                            key: kotReceiptKey,
+                            child: getThermalReceiptKOTWidget(
+                              businessName: businessName,
+                              address: address,
+                              gst: gst,
+                              items: items,
+                              paidBy: paymentMethod,
+                              tamilTagline: '',
+                              phone: phone,
+                              subtotal: subTotal,
+                              tax: taxPercent,
+                              total: total,
+                              orderNumber: orderNumber,
+                              tableName: tableName,
+                              waiterName: waiterName,
+                              orderType: orderType,
+                              date: date,
+                              status: orderStatus,
+                            ),
                           ),
-                        ),
-                      horizontalSpace(width: 10),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.05,
-                        child: OutlinedButton(
-                          onPressed: () => Navigator.pop(context),
-                          child: const Text(
-                            "CLOSE",
-                            style: TextStyle(color: appPrimaryColor),
-                          ),
-                        ),
-                      ),
-                    ],
+
+                        const SizedBox(height: 20),
+
+
+                      ],
+                    ),
                   ),
-                ],
+                ),
               ),
-            ),
+        Positioned(
+          bottom: 16,
+          left: 16,
+          right: 16,
+          child:Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              if (postGenerateOrderModel.order!.orderType == "PARCEL")
+                ElevatedButton.icon(
+                  onPressed: () {
+                    _selectBluetoothPrinter(context);
+                  },
+                  icon: const Icon(Icons.bluetooth),
+                  label: const Text("KOT(BT)"),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: greenColor,
+                    foregroundColor: whiteColor,
+                  ),
+                ),
+              horizontalSpace(width: 10),
+              ElevatedButton.icon(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                label: const Text("CLOSE"),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: appPrimaryColor,
+                  foregroundColor: whiteColor,
+                ),
+              ),
+            ],
+          ))
+            ],
           ),
         ),
       );
@@ -570,70 +582,82 @@ class HomePageViewState extends State<HomePageView>  with TickerProviderStateMix
           backgroundColor: Colors.transparent,
           insetPadding:
           const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
-          child: SingleChildScrollView(
-            child: Container(
-              width:  MediaQuery.of(context).size.width>650?MediaQuery.of(context).size.width * 0.4:MediaQuery.of(context).size.width * 0.95,
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: whiteColor,
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: Column(
-                children: [
-                  if (updateGenerateOrderModel.order!.orderType == "PARCEL")
-                    RepaintBoundary(
-                      key: kotReceiptKey,
-                      child: getThermalReceiptKOTWidget(
-                        businessName: businessName,
-                        address: address,
-                        gst: gst,
-                        items: items,
-                        paidBy: paymentMethod,
-                        tamilTagline: '',
-                        phone: phone,
-                        subtotal: subTotal,
-                        tax: taxPercent,
-                        total: total,
-                        orderNumber: orderNumber,
-                        tableName: tableName,
-                        waiterName: waiterName,
-                        orderType: orderType,
-                        date: date,
-                        status: orderStatus,
-                      ),
+          child:  Stack(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(bottom: 80),
+                child: SingleChildScrollView(
+                  child: Container(
+                    width:  MediaQuery.of(context).size.width>650?MediaQuery.of(context).size.width * 0.4:MediaQuery.of(context).size.width * 0.95,
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: whiteColor,
+                      borderRadius: BorderRadius.circular(16),
                     ),
-                  const SizedBox(height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      if (updateGenerateOrderModel.order!.orderType == "PARCEL")
-                        ElevatedButton.icon(
-                          onPressed: () {
-                            _selectBluetoothPrinter(context);
-                          },
-                          icon: const Icon(Icons.bluetooth),
-                          label: const Text("KOT(BT)"),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: greenColor,
-                            foregroundColor: whiteColor,
+                    child: Column(
+                      children: [
+                        if (updateGenerateOrderModel.order!.orderType == "PARCEL")
+                          RepaintBoundary(
+                            key: kotReceiptKey,
+                            child: getThermalReceiptKOTWidget(
+                              businessName: businessName,
+                              address: address,
+                              gst: gst,
+                              items: items,
+                              paidBy: paymentMethod,
+                              tamilTagline: '',
+                              phone: phone,
+                              subtotal: subTotal,
+                              tax: taxPercent,
+                              total: total,
+                              orderNumber: orderNumber,
+                              tableName: tableName,
+                              waiterName: waiterName,
+                              orderType: orderType,
+                              date: date,
+                              status: orderStatus,
+                            ),
                           ),
-                        ),
-                      horizontalSpace(width: 10),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.05,
-                        child: OutlinedButton(
-                          onPressed: () => Navigator.pop(context),
-                          child: const Text(
-                            "CLOSE",
-                            style: TextStyle(color: appPrimaryColor),
-                          ),
-                        ),
-                      ),
-                    ],
+                        const SizedBox(height: 20),
+
+                      ],
+                    ),
                   ),
-                ],
+                ),
               ),
-            ),
+        Positioned(
+          bottom: 16,
+          left: 16,
+          right: 16,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              if (updateGenerateOrderModel.order!.orderType == "PARCEL")
+                ElevatedButton.icon(
+                  onPressed: () {
+                    _selectBluetoothPrinter(context);
+                  },
+                  icon: const Icon(Icons.bluetooth),
+                  label: const Text("KOT(BT)"),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: greenColor,
+                    foregroundColor: whiteColor,
+                  ),
+                ),
+              horizontalSpace(width: 10),
+              ElevatedButton.icon(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                label: const Text("CLOSE"),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: appPrimaryColor,
+                  foregroundColor: whiteColor,
+                ),
+              ),
+            ],
+          ))
+            ],
           ),
         ),
       );

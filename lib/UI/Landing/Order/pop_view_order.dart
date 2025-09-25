@@ -33,17 +33,6 @@ class _ThermalReceiptDialogState extends State<ThermalReceiptDialog> {
   @override
   void initState() {
     super.initState();
-    // ipController.text = "192.168.1.4";
-    // if (kIsWeb) {
-    //   printerService = MockPrinterService();
-    //   printerServiceThermal = MockPrinterService();
-    // } else if (Platform.isAndroid) {
-    //   printerService = RealPrinterService();
-    //   printerServiceThermal = RealPrinterService();
-    // } else {
-    //   printerService = MockPrinterService();
-    //   printerServiceThermal = MockPrinterService();
-    // }
   }
 
   Future<void> _scanBluetoothDevices() async {
@@ -293,95 +282,106 @@ class _ThermalReceiptDialogState extends State<ThermalReceiptDialog> {
               horizontal: 5,
               vertical: 20,
             ),
-            child: SingleChildScrollView(
-              child: Container(
-                width: size.width > 650 ? size.width * 0.4 : size.width * 0.95,
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: whiteColor,
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: Column(
-                  children: [
-                    RepaintBoundary(
-                      key: normalReceiptKey,
-                      child: getThermalReceiptWidget(
-                        businessName: businessName,
-                        address: address,
-                        gst: gst,
-                        items: items,
-                        tax: taxAmount,
-                        paidBy: paymentMethod,
-                        tamilTagline: '',
-                        phone: phone,
-                        subtotal: subTotal,
-                        total: total,
-                        orderNumber: orderNumber,
-                        tableName: tableName,
-                        waiterName: waiterName,
-                        orderType: orderType,
-                        date: date,
-                        status: orderStatus,
+            child: Stack(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 80),
+                  child: SingleChildScrollView(
+                    child: Container(
+                      width: size.width > 650
+                          ? size.width * 0.4
+                          : size.width * 0.95,
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: whiteColor,
+                        borderRadius: BorderRadius.circular(16),
                       ),
-                    ),
-                    const SizedBox(height: 20),
-                    if (order.orderType == "PARCEL")
-                      RepaintBoundary(
-                        key: kotReceiptKey,
-                        child: getThermalReceiptKOTWidget(
-                          businessName: businessName,
-                          address: address,
-                          gst: gst,
-                          items: items,
-                          paidBy: paymentMethod,
-                          tamilTagline: '',
-                          phone: phone,
-                          subtotal: subTotal,
-                          tax: taxAmount,
-                          total: total,
-                          orderNumber: orderNumber,
-                          tableName: tableName,
-                          waiterName: waiterName,
-                          orderType: orderType,
-                          date: date,
-                          status: orderStatus,
-                        ),
-                      ),
-                    const SizedBox(height: 10),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        if (order.orderType == "PARCEL")
-                          ElevatedButton.icon(
-                            onPressed: () {
-                              _selectBluetoothPrinter(context);
-                            },
-                            icon: const Icon(Icons.bluetooth),
-                            label: const Text("KOT(BT)"),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: greenColor,
-                              foregroundColor: whiteColor,
+                      child: Column(
+                        children: [
+                          RepaintBoundary(
+                            key: normalReceiptKey,
+                            child: getThermalReceiptWidget(
+                              businessName: businessName,
+                              address: address,
+                              gst: gst,
+                              items: items,
+                              tax: taxAmount,
+                              paidBy: paymentMethod,
+                              tamilTagline: '',
+                              phone: phone,
+                              subtotal: subTotal,
+                              total: total,
+                              orderNumber: orderNumber,
+                              tableName: tableName,
+                              waiterName: waiterName,
+                              orderType: orderType,
+                              date: date,
+                              status: orderStatus,
                             ),
                           ),
-                        horizontalSpace(width: 10),
-                        SizedBox(
-                          height: size.height * 0.05,
-                          child: OutlinedButton(
-                            onPressed: () => Navigator.pop(context),
-                            child: const Text(
-                              "CLOSE",
-                              style: TextStyle(color: appPrimaryColor),
+                          const SizedBox(height: 20),
+                          if (order.orderType == "PARCEL")
+                            RepaintBoundary(
+                              key: kotReceiptKey,
+                              child: getThermalReceiptKOTWidget(
+                                businessName: businessName,
+                                address: address,
+                                gst: gst,
+                                items: items,
+                                paidBy: paymentMethod,
+                                tamilTagline: '',
+                                phone: phone,
+                                subtotal: subTotal,
+                                tax: taxAmount,
+                                total: total,
+                                orderNumber: orderNumber,
+                                tableName: tableName,
+                                waiterName: waiterName,
+                                orderType: orderType,
+                                date: date,
+                                status: orderStatus,
+                              ),
                             ),
+                          const SizedBox(height: 10),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                Positioned(
+                  bottom: 16,
+                  left: 16,
+                  right: 16,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      if (order.orderType == "PARCEL")
+                        ElevatedButton.icon(
+                          onPressed: () {
+                            _selectBluetoothPrinter(context);
+                          },
+                          icon: const Icon(Icons.bluetooth),
+                          label: const Text("KOT(BT)"),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: greenColor,
+                            foregroundColor: whiteColor,
                           ),
                         ),
-                      ],
-                    ),
-                    const SizedBox(height: 10),
-
-                    // Close Button
-                  ],
+                      horizontalSpace(width: 10),
+                      ElevatedButton.icon(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        label: const Text("CLOSE"),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: appPrimaryColor,
+                          foregroundColor: whiteColor,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
+              ],
             ),
           );
   }
