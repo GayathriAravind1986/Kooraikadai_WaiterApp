@@ -46,7 +46,7 @@ class _MyAppState extends State<MyApp> {
         return OverlaySupport.global(
           child: MaterialApp(
             debugShowCheckedModeBanner: false,
-            title: 'Ramanas',
+            title: 'KooraiKadai',
             theme: ThemeData(
               primaryColor: appPrimaryColor,
               unselectedWidgetColor: appPrimaryColor,

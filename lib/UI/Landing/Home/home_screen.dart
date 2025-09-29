@@ -1405,14 +1405,11 @@ class HomePageViewState extends State<HomePageView>  with TickerProviderStateMix
                                               ),
 
                                         /// Product - list
-                                        SizedBox(
-                                          height: size.height * 0.35,
-                                          width: size.width * 1.8,
-                                          child:
-                                          allProducts.isEmpty
-                                              ? Container()
-                                              : GridView.builder(
-                                            controller: _scrollController,
+                                        allProducts.isEmpty
+                                            ? Container()
+                                            : Expanded(
+                                              child: GridView.builder(
+                                                controller: _scrollController,
                                                   padding: EdgeInsets.only(
                                                     top: 10,
                                                   ),
@@ -1423,51 +1420,11 @@ class HomePageViewState extends State<HomePageView>  with TickerProviderStateMix
                                                             ).size.width <=
                                                             500
                                                         ? 2
-                                                        : MediaQuery.of(context)
-                                                                      .size
-                                                                      .width >=
-                                                                  560 ||
-                                                              MediaQuery.of(
-                                                                        context,
-                                                                      )
-                                                                      .size
-                                                                      .width >=
-                                                                  600
-                                                        ? 3
-                                                        : 2,
+                                                        : 3,
                                                     crossAxisSpacing: 8,
                                                     mainAxisSpacing: 8,
                                                     childAspectRatio:
-                                                    MediaQuery.of(
-                                                      context,
-                                                    ).size.width <
-                                                        500
-                                                        ?0.55:
-                                                    MediaQuery.of(
-                                                              context,
-                                                            ).size.width <=
-                                                            500
-                                                        ? 0.86 :MediaQuery.of(
-                                                          context,
-                                                          ).size.width >
-                                                          500 && MediaQuery.of(
-                                                      context,
-                                                    ).size.width <
-                                                        560 ?0.75
-                                                        : MediaQuery.of(
-                                                                context,
-                                                              ).size.width >=
-                                                              560 && MediaQuery.of(
-                                                          context,
-                                                        ).size.width <=
-                                                            600
-                                                        ? 0.6
-                                                        : MediaQuery.of(
-                                                                context,
-                                                              ).size.width >
-                                                              600
-                                                        ? 0.72
-                                                        : 0.95,
+                                                    0.7,
                                                   ),
                                                   itemCount:allProducts.length + (hasMoreData ? 1 : 0),
                                                   itemBuilder: (_, index) {
@@ -3831,7 +3788,7 @@ class HomePageViewState extends State<HomePageView>  with TickerProviderStateMix
                                                     );
                                                   },
                                                 ),
-                                        ),
+                                            ),
                                       ],
                                     ),
                                   ),
@@ -7884,18 +7841,15 @@ class HomePageViewState extends State<HomePageView>  with TickerProviderStateMix
                                   ),
 
                                   /// Product - list
-                                  SizedBox(
-                                    height: size.height * 0.35,
-                                    width: size.width * 1.8,
-                                    child:
-                                    allProducts.isEmpty
-                                        ? Container()
-                                        : GridView.builder(
-                                      controller: _scrollController,
-                                      padding: EdgeInsets.only(
+                                  allProducts.isEmpty
+                                      ? Container()
+                                      : Expanded(
+                                        child: GridView.builder(
+                                          controller: _scrollController,
+                                          padding: EdgeInsets.only(
                                         top: 10,
-                                      ),
-                                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                          ),
+                                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                                         crossAxisCount:
                                         MediaQuery.of(
                                           context,
@@ -7917,41 +7871,11 @@ class HomePageViewState extends State<HomePageView>  with TickerProviderStateMix
                                         crossAxisSpacing: 8,
                                         mainAxisSpacing: 8,
                                         childAspectRatio:
-                                        MediaQuery.of(
-                                          context,
-                                        ).size.width >
-                                            650 && MediaQuery.of(
-                                          context,
-                                        ).size.width <
-                                            700
-                                            ? 0.78
-                                            : MediaQuery.of(
-                                          context,
-                                        ).size.width >=
-                                            700 && MediaQuery.of(
-                                          context,
-                                        ).size.width <
-                                            740
-                                            ? 0.8
-                                            : MediaQuery.of(
-                                          context,
-                                        ).size.width >=
-                                            740 && MediaQuery.of(
-                                          context,
-                                        ).size.width <
-                                            760
-                                            ? 0.9
-                                            : MediaQuery.of(
-                                          context,
-                                        ).size.width >=
-                                            760 && MediaQuery.of(context)
-                                            .size
-                                            .width <
-                                            800 ?0.65:0.5,
-                                      ),
-                                      itemCount:
-                                      allProducts.length + (hasMoreData ? 1 : 0),
-                                      itemBuilder: (_, index) {
+                                        0.7,
+                                          ),
+                                          itemCount:
+                                          allProducts.length + (hasMoreData ? 1 : 0),
+                                          itemBuilder: (_, index) {
                                         if (index == allProducts.length) {
                                           return buildLoadingIndicator();
                                         }
@@ -10102,9 +10026,9 @@ class HomePageViewState extends State<HomePageView>  with TickerProviderStateMix
                                             ),
                                           ),
                                         );
-                                      },
-                                    ),
-                                  ),
+                                                                            },
+                                                                          ),
+                                      ),
                                 ],
                               ),
                             ),
